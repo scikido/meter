@@ -1,8 +1,38 @@
+"use client"
+import { useEffect, useState } from "react"
 import { DashboardHeader } from "@/components/meter/DashboardHeader"
 import { SessionList } from "@/components/meter/SessionList"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { ethers } from "ethers"
+import { Loader2 } from "lucide-react"
 
 export default function DashboardPage() {
+    const [balance, setBalance] = useState<string>("0.00")
+    const [isLoading, setIsLoading] = useState(true)
+
+    useEffect(() => {
+        const fetchWalletData = async () => {
+            if (typeof window !== 'undefined' && typeof (window as any).ethereum !== 'undefined') {
+                try {
+                    const provider = new ethers.BrowserProvider((window as any).ethereum)
+                    const signer = await provider.getSigner()
+                    const userAddress = await signer.getAddress()
+                    const userBalance = await provider.getBalance(userAddress)
+                    
+                    setBalance(ethers.formatEther(userBalance))
+                } catch (error) {
+                    console.error("Failed to fetch wallet data:", error)
+                } finally {
+                    setIsLoading(false)
+                }
+            } else {
+                setIsLoading(false)
+            }
+        }
+
+        fetchWalletData()
+    }, [])
+
     return (
         <div className="min-h-screen bg-background">
             <DashboardHeader />
@@ -31,8 +61,12 @@ export default function DashboardPage() {
                             <CardTitle className="text-sm font-medium text-muted-foreground">Available Balance</CardTitle>
                         </CardHeader>
                          <CardContent>
-                            <div className="text-2xl font-bold">$1,250.00</div>
-                            <p className="text-xs text-muted-foreground mt-1">Auto-reload enabled</p>
+                            {isLoading ? (
+                                <Loader2 className="h-6 w-6 animate-spin" />
+                            ) : (
+                                <div className="text-2xl font-bold">{Number(balance).toFixed(4)} ETH</div>
+                            )}
+                            <p className="text-xs text-muted-foreground mt-1">Wallet Connected</p>
                         </CardContent>
                     </Card>
                 </div>

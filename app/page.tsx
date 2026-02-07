@@ -1,4 +1,4 @@
-import { Hero } from "@/components/meter/Hero";
+import Hero from "@/components/meter/Hero";
 import { FlowFeatures } from "@/components/meter/FlowFeatures";
 import Link from "next/link";
 
