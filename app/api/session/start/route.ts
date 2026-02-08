@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
 
     // STEP 2: Set up both wallets (using seed phrases for now)
     console.log('\n👛 STEP 2: Setting up wallet clients...');
-    
+
     // For now, use WALLET_1_SEED_PHRASE for the user wallet
     // TODO: Replace with MetaMask integration
     const walletClient = createWalletClient({
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
 
     const wallet1Address = walletClient.account?.address as `0x${string}`;
     const partnerAddress = wallet2Client.account?.address as `0x${string}`;
-    
+
     console.log('✅ Wallet 1 (User):', wallet1Address);
     console.log('✅ Wallet 2 (Partner):', partnerAddress);
 
@@ -120,17 +120,17 @@ export async function POST(request: NextRequest) {
     console.log('📥 Received session response:', JSON.stringify(sessionResponse, null, 2));
 
     const appSessionId = sessionResponse?.params?.appSessionId;
-    
+
     if (!appSessionId) {
       console.error('❌ No app_session_id in response!');
       throw new Error('Yellow Network did not return an app_session_id');
     }
-    
+
     console.log('🆔 App Session ID:', appSessionId);
 
     // Store session data with separate sessionId
     const sessionId = `sess_${Date.now()}_${Math.random().toString(36).substring(7)}`;
-    
+
     sessionStore.set(sessionId, {
       sessionId,
       appSessionId,
