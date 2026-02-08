@@ -10,7 +10,7 @@ export default function Hero() {
       {/* Hero Section */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
         <div className="text-center">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 bg-clip-text text-transparent">
             Pay for AI as You Use It
           </h1>
           <p className="mt-6 text-lg leading-8 text-muted-foreground max-w-2xl mx-auto">
@@ -35,8 +35,8 @@ export default function Hero() {
         {/* Feature Grid */}
         <div id="features" className="mt-32 grid grid-cols-1 gap-8 sm:grid-cols-3">
           <div className="relative p-8 rounded-2xl border bg-card">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 mb-4">
-              <Zap className="h-6 w-6 text-primary" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-500/10 mb-4">
+              <Zap className="h-6 w-6 text-emerald-500" />
             </div>
             <h3 className="text-lg font-semibold mb-2">Instant Sessions</h3>
             <p className="text-sm text-muted-foreground">
@@ -45,8 +45,8 @@ export default function Hero() {
           </div>
 
           <div className="relative p-8 rounded-2xl border bg-card">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 mb-4">
-              <Shield className="h-6 w-6 text-primary" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-teal-500/10 mb-4">
+              <Shield className="h-6 w-6 text-teal-500" />
             </div>
             <h3 className="text-lg font-semibold mb-2">Secure & Trustless</h3>
             <p className="text-sm text-muted-foreground">
@@ -55,8 +55,8 @@ export default function Hero() {
           </div>
 
           <div className="relative p-8 rounded-2xl border bg-card">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 mb-4">
-              <TrendingUp className="h-6 w-6 text-primary" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-cyan-500/10 mb-4">
+              <TrendingUp className="h-6 w-6 text-cyan-500" />
             </div>
             <h3 className="text-lg font-semibold mb-2">Pay Per Use</h3>
             <p className="text-sm text-muted-foreground">
