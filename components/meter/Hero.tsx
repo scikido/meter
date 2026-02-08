@@ -1,116 +1,67 @@
 'use client';
 
-import { useState } from 'react';
-import { Client } from 'yellow-ts'
+import Link from 'next/link';
+import { ArrowRight, Zap, Shield, TrendingUp } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export default function Hero() {
-  const yellow = new Client({
-    url: 'wss://clearnet-sandbox.yellow.com/ws',
-  });
-  const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<any>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [logs, setLogs] = useState<string[]>([]);
-
-  const addLog = (msg: string) => {
-    setLogs(prev => [...prev, `[${new Date().toLocaleTimeString()}] ${msg}`]);
-  };
-
-  const runSession = async () => {
-    setLoading(true);
-    setError(null);
-    setResult(null);
-    setLogs([]);
-
-    addLog('🔌 Connecting to Yellow Network...');
-
-    try {
-      const response = await fetch('/api/yellow/multi-party-session', {
-        method: 'POST',
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed');
-      }
-
-      addLog('✅ Connected to Yellow clearnet');
-      addLog(`👤 User: ${data.participants?.user}`);
-      addLog(`👥 Partner: ${data.participants?.partner}`);
-      addLog(`📝 Session ID: ${data.appSessionId}`);
-      addLog('📊 Initial: User 0.01 USDC, Partner 0.00 USDC');
-      addLog('💸 Transfer: 0.01 USDC → Partner');
-      addLog('✍️ Both parties signed close message');
-      addLog('🎉 Session closed successfully!');
-
-      setResult(data);
-    } catch (err: any) {
-      setError(err.message);
-      addLog(`❌ Error: ${err.message}`);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-
-
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-white mb-4">
-            Multi-Party Session Demo
+    <div className="relative overflow-hidden bg-background">
+      {/* Hero Section */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent">
+            Pay for AI as You Use It
           </h1>
-          <p className="text-slate-400 text-lg">
-            Yellow Network • Nitrolite State Channels
+          <p className="mt-6 text-lg leading-8 text-muted-foreground max-w-2xl mx-auto">
+            Meter enables micropayment sessions for AI services using Yellow Network's state channels.
+            Start a session, use AI features, and settle only what you consume.
           </p>
+          <div className="mt-10 flex items-center justify-center gap-x-6">
+            <Link href="/dashboard">
+              <Button size="lg" className="gap-2">
+                Get Started
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+            <Link href="#features">
+              <Button variant="outline" size="lg">
+                Learn More
+              </Button>
+            </Link>
+          </div>
         </div>
 
-        <div className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6 mb-8">
-          <button
-            onClick={runSession}
-            disabled={loading}
-            className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-700 text-white font-medium py-4 px-6 rounded-xl transition-all"
-          >
-            {loading ? 'Running...' : 'Run Multi-Party Session'}
-          </button>
-
-          {error && (
-            <div className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
-              <p className="text-red-400 text-sm">{error}</p>
+        {/* Feature Grid */}
+        <div id="features" className="mt-32 grid grid-cols-1 gap-8 sm:grid-cols-3">
+          <div className="relative p-8 rounded-2xl border bg-card">
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 mb-4">
+              <Zap className="h-6 w-6 text-primary" />
             </div>
-          )}
+            <h3 className="text-lg font-semibold mb-2">Instant Sessions</h3>
+            <p className="text-sm text-muted-foreground">
+              Start payment sessions in seconds using state channels. No blockchain delays.
+            </p>
+          </div>
 
-          {result && (
-            <div className="mt-4 space-y-2 text-sm">
-              <div className="bg-slate-900/50 rounded-lg p-3">
-                <span className="text-slate-400">Session ID: </span>
-                <span className="text-white font-mono text-xs">{result.appSessionId}</span>
-              </div>
-              <div className="bg-slate-900/50 rounded-lg p-3">
-                <span className="text-slate-400">User: </span>
-                <span className="text-white font-mono text-xs">{result.participants?.user}</span>
-              </div>
-              <div className="bg-slate-900/50 rounded-lg p-3">
-                <span className="text-slate-400">Partner: </span>
-                <span className="text-white font-mono text-xs">{result.participants?.partner}</span>
-              </div>
+          <div className="relative p-8 rounded-2xl border bg-card">
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 mb-4">
+              <Shield className="h-6 w-6 text-primary" />
             </div>
-          )}
-        </div>
+            <h3 className="text-lg font-semibold mb-2">Secure & Trustless</h3>
+            <p className="text-sm text-muted-foreground">
+              Multi-party signatures ensure secure settlement without intermediaries.
+            </p>
+          </div>
 
-        <div className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6">
-          <h2 className="text-xl font-semibold text-white mb-4">Activity Log</h2>
-          <div className="bg-slate-950 rounded-lg p-4 h-64 overflow-y-auto font-mono text-sm">
-            {logs.length === 0 ? (
-              <p className="text-slate-500">Click the button to run the session flow.</p>
-            ) : (
-              logs.map((log, i) => (
-                <div key={i} className="text-slate-300 py-1">{log}</div>
-              ))
-            )}
+          <div className="relative p-8 rounded-2xl border bg-card">
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 mb-4">
+              <TrendingUp className="h-6 w-6 text-primary" />
+            </div>
+            <h3 className="text-lg font-semibold mb-2">Pay Per Use</h3>
+            <p className="text-sm text-muted-foreground">
+              Only pay for what you actually use. Track usage in real-time.
+            </p>
           </div>
         </div>
       </div>
